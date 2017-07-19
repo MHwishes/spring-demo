@@ -1,0 +1,21 @@
+version: '2'
+services:
+  mysql:
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+
+    environment:
+      - LANG=C.UTF-8
+      - TERM=dumb
+      - MYSQL_ROOT_PASSWORD=mahong
+      - MYSQL_DATABASE=mahong
+      - MYSQL_PASSWORD=mahong
+      - MYSQL_USER=mahong
+    networks:
+      main:
+        aliases:
+          - mysql
+
+networks:
+  main:

@@ -1,0 +1,27 @@
+server:
+  port: 8081
+  context-path: /springboot
+
+name: 小胖
+age: 22
+content: "name: ${name},age: ${age}"
+
+person:
+  name: 小胖
+  age: 22
+
+
+spring:
+  profiles:
+    active: a
+  datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/mahong
+      username: mahong
+      password: mahong
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    show-sql: true
