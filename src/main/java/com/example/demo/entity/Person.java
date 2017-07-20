@@ -15,8 +15,11 @@ public class Person {
     private Integer age;
 
     //必须要有构造函数
-    public Person() {
+    public Person(String name,Integer age) {
+        this.name=name;
+        this.age=age;
     }
+    public Person(){}
 
     public Integer getId() {
         return id;

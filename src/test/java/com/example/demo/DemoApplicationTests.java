@@ -15,13 +15,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static net.bytebuddy.matcher.ElementMatchers.is;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockingDetails;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.demo.dao.PersonRepository;
@@ -29,6 +34,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -45,13 +52,16 @@ public class DemoApplicationTests {
 
 	@Before
 	public void setUp(){
+		initMocks(this);
+		PersonController personController = new PersonController();
+		personController.setRepo(personRepository);
 		Person mockUser = new Person();
 		mockUser.setName("john");
 		mockUser.setAge(12);
 		when(personRepository.save(mockUser)).thenReturn(mockUser);
 
-		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-
+//		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+		mockMvc = MockMvcBuilders.standaloneSetup(personController).build();
 
 
 	}
@@ -69,8 +79,21 @@ public class DemoApplicationTests {
 
 	@Test
 	public void urltest()throws  Exception{
-		mockMvc.perform(get("/person").accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
-				.andExpect(status().isOk());
+
+		Person user = new Person("yuuuuy",8);
+		List<Person> userList = new LinkedList<Person>();
+		userList.add(user);
+
+		when(personRepository.findAll()).thenReturn(userList);
+
+//		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+
+		assertEquals(mockingDetails(personRepository).isMock(),true);
+
+
+		mockMvc.perform(get("/person"))
+				.andExpect(status().isOk())
+		        .andExpect(jsonPath("$",hasSize(1)));
 
 	}
 

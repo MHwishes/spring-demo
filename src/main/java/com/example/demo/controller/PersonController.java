@@ -13,13 +13,18 @@ public class PersonController {
     @Autowired
     private  PersonRepository personRepository;
 
+    public void setRepo(PersonRepository repo){
+        personRepository =  repo;
+    }
+
     @GetMapping(value = "/person")
-    private List<Person> personList() {
+    private List<Person> getAll() {
+        System.out.println(personRepository.findAll());
         return personRepository.findAll();
     }
 
     @GetMapping(value = "/person/{id}")
-    private Person getOnePerson( @PathVariable("id") Integer id) {
+    private Person getOne( @PathVariable("id") Integer id) {
         return  personRepository.findOne(id);
     }
 
