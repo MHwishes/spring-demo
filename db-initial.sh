@@ -1,1 +1,0 @@
-docker exec -i demo2_mysql_1 mysql -u mahong -pmahong < database/person.sql

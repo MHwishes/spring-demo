@@ -30,17 +30,6 @@ public class PersonController {
 
     @PostMapping(value="/person")
     private Person save(@ModelAttribute Person  person){
-//        Person person=new Person();
-//
-//        String name=(String) man.get("name");
-//        Integer age=(Integer) man.get("age");
-//
-//        person.setName(name);
-//        person.setAge(age);
-
-//        System.out.print(person);
-//        System.out.print("yyyyyyyyyyyyyyyyyyyyyyyyyyyy");
-//        System.out.println(personRepository.save(person).getName());
         return  personRepository.save(person);
 
 
@@ -48,14 +37,7 @@ public class PersonController {
 
     @PutMapping(value = "/person/{id}")
     private Person update(@PathVariable("id") Integer id,@ModelAttribute Person person){
-//        Person person=new Person();
-//
-//        String name=(String) man.get("name");
-//        Integer age=(Integer) man.get("age");
-//
-//        person.setName(name);
-//        person.setAge(age);
-//        person.setId(id);
+
         return  personRepository.save(person);
 
     }
