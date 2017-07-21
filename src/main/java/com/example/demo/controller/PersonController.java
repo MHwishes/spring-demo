@@ -18,32 +18,30 @@ public class PersonController {
     }
 
     @GetMapping(value = "/person")
-    private List<Person> getAll() {
-        System.out.println(personRepository.findAll());
+    public List<Person> getAll() {
+
         return personRepository.findAll();
     }
 
     @GetMapping(value = "/person/{id}")
-    private Person getOne( @PathVariable("id") Integer id) {
+    public Person getOne( @PathVariable("id") Integer id) {
         return  personRepository.findOne(id);
     }
 
     @PostMapping(value="/person")
-    private Person save(@ModelAttribute Person  person){
+    public Person save(@ModelAttribute Person  person){
         return  personRepository.save(person);
-
-
     }
 
     @PutMapping(value = "/person/{id}")
-    private Person update(@PathVariable("id") Integer id,@ModelAttribute Person person){
+    public Person update(@PathVariable("id") Integer id,@ModelAttribute Person person){
 
         return  personRepository.save(person);
 
     }
 
     @DeleteMapping(value = "/person/{id}")
-    private String delete(@PathVariable("id") Integer id){
+    public String delete(@PathVariable("id") Integer id){
         personRepository.delete(id);
         return "success";
     }
