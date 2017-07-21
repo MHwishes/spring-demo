@@ -19,6 +19,13 @@ public class Person {
         this.name=name;
         this.age=age;
     }
+
+    public Person(String name,Integer age,Integer id) {
+        this.name=name;
+        this.age=age;
+        this.id=id;
+    }
+
     public Person(){}
 
     public Integer getId() {

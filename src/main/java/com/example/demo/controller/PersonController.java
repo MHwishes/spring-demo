@@ -29,33 +29,40 @@ public class PersonController {
     }
 
     @PostMapping(value="/person")
-    private Person save(@RequestBody Map man){
-        Person person=new Person();
+    private Person save(@ModelAttribute Person  person){
+//        Person person=new Person();
+//
+//        String name=(String) man.get("name");
+//        Integer age=(Integer) man.get("age");
+//
+//        person.setName(name);
+//        person.setAge(age);
 
-        String name=(String) man.get("name");
-        Integer age=(Integer) man.get("age");
+//        System.out.print(person);
+//        System.out.print("yyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+//        System.out.println(personRepository.save(person).getName());
+        return  personRepository.save(person);
 
-        person.setName(name);
-        person.setAge(age);
-        return personRepository.save(person);
+
     }
 
     @PutMapping(value = "/person/{id}")
-    private Person update(@PathVariable("id") Integer id,@RequestBody Map man){
-        Person person=new Person();
-
-        String name=(String) man.get("name");
-        Integer age=(Integer) man.get("age");
-
-        person.setName(name);
-        person.setAge(age);
-        person.setId(id);
+    private Person update(@PathVariable("id") Integer id,@ModelAttribute Person person){
+//        Person person=new Person();
+//
+//        String name=(String) man.get("name");
+//        Integer age=(Integer) man.get("age");
+//
+//        person.setName(name);
+//        person.setAge(age);
+//        person.setId(id);
         return  personRepository.save(person);
 
     }
 
     @DeleteMapping(value = "/person/{id}")
-    private void delete(@PathVariable("id") Integer id){
+    private String delete(@PathVariable("id") Integer id){
         personRepository.delete(id);
+        return "success";
     }
 }
