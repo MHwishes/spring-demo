@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.controller;
 
 import com.example.demo.controller.HelloController;
 import com.example.demo.controller.PersonController;
@@ -40,7 +40,7 @@ import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UT {
+public class PersonControllerTest {
     @Mock
     private PersonRepository personRepository;
 

@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Created by hma on 19/07/2017.
- */
 @RestController
 public class HelloController {
 
@@ -19,10 +16,10 @@ public class HelloController {
 //    @Autowired
 //    private PersonProperties personProperties;
 
-    @RequestMapping(value = "/hello",method = RequestMethod.GET)
-    public String say(){
-        return name;
-    }
+//    @RequestMapping(value = "/hello",method = RequestMethod.GET)
+//    public String say(){
+//        return name;
+//    }
 
     @RequestMapping("/helloo")
     public String index() {

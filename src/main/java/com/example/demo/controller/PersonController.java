@@ -4,24 +4,32 @@ import com.example.demo.dao.PersonRepository;
 import com.example.demo.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 public class PersonController {
+
     @Autowired
-    private  PersonRepository personRepository;
+    PersonRepository personRepository;
 
     public void setRepo(PersonRepository repo){
+
         personRepository =  repo;
     }
 
     @GetMapping(value = "/person")
-    public List<Person> getAll() {
-
+    public  List<Person> getAllPersons(){
         return personRepository.findAll();
     }
+
 
     @GetMapping(value = "/person/{id}")
     public Person getOne( @PathVariable("id") Integer id) {
@@ -44,5 +52,10 @@ public class PersonController {
     public String delete(@PathVariable("id") Integer id){
         personRepository.delete(id);
         return "success";
+    }
+
+    @RequestMapping(value = "/hello",method = RequestMethod.GET)
+    public String say(){
+        return "Hello";
     }
 }
