@@ -1,39 +1,26 @@
 package com.example.demo.controller;
 
-import com.example.demo.controller.HelloController;
-import com.example.demo.controller.PersonController;
 import com.example.demo.dao.PersonRepository;
 import com.example.demo.entity.Person;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.stubbing.Answer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.*;
@@ -117,9 +104,6 @@ public class PersonControllerTest {
     @Test
     public void deletePerson() throws Exception{
 
-//        doCallRealMethod().when(personRepository).delete(1);
-
-//        doThrow(new RuntimeException()).when(personRepository).delete(1);
         mockMvc.perform(delete("/person/1"))
                 .andExpect(status().isOk());
 
