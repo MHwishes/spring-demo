@@ -48,10 +48,10 @@ public class DemoTest {
 
     @Test
     public void getOnePerson() throws Exception {
-        mockMvc.perform(get("/person/6"))
+        mockMvc.perform(get("/person/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is("mahong")))
-                .andExpect(jsonPath("$.age", is(45)));
+                .andExpect(jsonPath("$.name", is("mahong beautiful")))
+                .andExpect(jsonPath("$.age", is(20)));
     }
 
 
