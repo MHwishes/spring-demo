@@ -1,12 +1,8 @@
-pipeline {
-  agent any
-  stages {
-
-    stage('Unit Tests') {
-      steps {
-         echo 'hello'
-      }
-
+node('docker') {
+    checkout scm
+    stage('Build') {
+        docker.image('java:8-jdk-alpine').inside {
+            sh 'java -version'
+        }
     }
-  }
 }
