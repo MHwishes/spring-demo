@@ -3,9 +3,8 @@ pipeline {
   stages {
 
     stage('Unit Tests') {
-
       steps {
-        sh 'hello'
+         echo 'hello'
       }
 
     }
