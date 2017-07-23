@@ -29,5 +29,14 @@ services:
      networks:
        main:
 
+  jenkins:
+     image: jenkins:2.60.1
+     ports:
+        - 8080:8080
+     networks:
+       main:
+         aliases:
+            - jenkins
+
 networks:
   main:
