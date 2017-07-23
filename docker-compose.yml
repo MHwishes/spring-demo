@@ -5,13 +5,13 @@ services:
     ports:
       - 3306:3306
 
-    environment:
-      - LANG=C.UTF-8
-      - TERM=dumb
-      - MYSQL_ROOT_PASSWORD=mahong
-      - MYSQL_DATABASE=mahong
-      - MYSQL_PASSWORD=mahong
-      - MYSQL_USER=mahong
+#    environment:
+#      - LANG=C.UTF-8
+#      - TERM=dumb
+#      - MYSQL_ROOT_PASSWORD=mahong
+##      - MYSQL_DATABASE=mahong
+#      - MYSQL_PASSWORD=mahong
+#      - MYSQL_USER=mahong
     networks:
       main:
         aliases:
@@ -22,7 +22,7 @@ services:
      image: java:8-jdk-alpine
      container_name: spring
      ports:
-       - 8080:8080
+       - 8888:8888
      volumes:
        - ./target/demo-0.0.1-SNAPSHOT.jar:/usr/src/myapp/spring-boot-demo-0.0.1.jar
      command: java -jar /usr/src/myapp/spring-boot-demo-0.0.1.jar

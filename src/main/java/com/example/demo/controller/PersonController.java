@@ -27,6 +27,7 @@ public class PersonController {
 
     @GetMapping(value = "/person")
     public  List<Person> getAllPersons(){
+        System.out.print("ertyuiopsdfghj");
         return personRepository.findAll();
     }
 
