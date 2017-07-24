@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import com.example.demo.controller.HelloController;
 import com.example.demo.dao.PersonRepository;
 import com.example.demo.entity.Person;
 import org.junit.Before;
@@ -16,12 +15,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @WebAppConfiguration
 @Transactional
-public class DemoTest {
+public class AcceptTest {
     private MockMvc mockMvc;
 
 
@@ -40,85 +36,54 @@ public class DemoTest {
 
     @Before
     public void setUp() throws Exception{
-//        mockMvc = MockMvcBuilders.standaloneSetup(new PersonController()).build();
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 
-        Person person=new Person("mahong",18);
-        personRepository.save(person);
+        personRepository.deleteAll();
+        Person person1=new Person("mahong1",18);
+        Person person2=new Person("mahong2",19);
+        personRepository.save(person1);
+        personRepository.save(person2);
     }
 
 
     @Test
-    public void getAllPerson() throws Exception {
+    public void acception() throws Exception{
         mockMvc.perform(get("/person"))
-//                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].name", is("mahong1")))
+                .andExpect(jsonPath("$[0].age", is(18)))
+                .andExpect(jsonPath("$[1].name", is("mahong2")))
+                .andExpect(jsonPath("$[1].age", is(19)));
 
-    @Test
-    public void getOnePerson() throws Exception {
         Person person = personRepository.findAll().get(0);
         mockMvc.perform(get("/person/"+person.getId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is("mahong")))
+                .andExpect(jsonPath("$.name", is("mahong1")))
                 .andExpect(jsonPath("$.age", is(18)));
-    }
 
-
-    @Test
-
-    public void addOnePERSON() throws Exception {
 
         mockMvc.perform(post("/person")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("name","mahong6666")
                 .param("age","20")
-                .accept(MediaType.APPLICATION_JSON)) //执行请求
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.name", is("mahong6666")))
                 .andExpect(jsonPath("$.age", is(20)));
 
-    }
-
-
-    @Test
-
-    public void putOnePERSON() throws Exception {
-
-        mockMvc.perform(put("/person/9")
+        mockMvc.perform(put("/person/"+person.getId())  //TODO:put 接口有问题，不能做简单的save
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("name","mahong")
                 .param("age","20")
-                .param("id","1")
-                .accept(MediaType.APPLICATION_JSON)) //执行请求
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.name", is("mahong")))
                 .andExpect(jsonPath("$.age", is(20)));
-    }
 
-    @Test
-    @Transactional
-    public void deletePerson() throws Exception{
 
-        Person person = personRepository.findAll().get(0);
         mockMvc.perform(delete("/person/"+person.getId()))
                 .andExpect(status().isOk());
+
     }
 
-    @Test
-    public void fisttest(){
-        HelloController helloController=new HelloController();
-        assertEquals("Hello World",helloController.index());
-    }
-
-    @Test
-    public void sayHello() throws Exception {
-        mockMvc.perform(get("/hello"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("Hello")));
-    }
-
-
-    @Test
-    public void contextLoads() {
-        assertEquals(6, 3+3);
-    }
+    
 }

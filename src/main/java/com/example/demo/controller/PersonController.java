@@ -39,8 +39,9 @@ public class PersonController {
         return  personRepository.findOne(id);
     }
 
+
     @PostMapping(value="/person")
-    public Person save(@ModelAttribute Person  person){
+    public Person save(Person  person){
         return  personRepository.save(person);
     }
 

@@ -26,7 +26,7 @@ public class Person {
         this.id=id;
     }
 
-    public Person(){}
+    Person(){}
 
     public Integer getId() {
         return id;

@@ -3,12 +3,14 @@ package com.example.demo.controller;
 import com.example.demo.dao.PersonRepository;
 import com.example.demo.entity.Person;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -36,6 +38,9 @@ public class PersonControllerTest {
     private MockMvc mockMvc;
 
     private RequestBuilder request = null;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Before
     public void setUp() {
@@ -76,20 +81,33 @@ public class PersonControllerTest {
     }
 
 
+//    @Test
+//    public void addOnePERSON() throws Exception {
+//        Person person = new Person("mahong", 1);
+//
+//        Mockito.when(personRepository.save(Matchers.any(Person.class))).thenReturn(person);
+//
+//        mockMvc.perform(post("/person")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .param("name","mahong")
+//                .param("age","1")
+//                .accept(MediaType.APPLICATION_JSON)) //执行请求
+//                .andExpect(jsonPath("$.name", is("mahong")))
+//                .andExpect(jsonPath("$.age", is(1)));
+//    }
+
+
+
     @Test
     public void addOnePERSON() throws Exception {
         Person person = new Person("mahong", 1);
-//        when(personRepository.save(user)).thenReturn(user);
 
         Mockito.when(personRepository.save(Matchers.any(Person.class))).thenReturn(person);
 
-        mockMvc.perform(post("/person")
+        this.mockMvc.perform(post("/person/")
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("name","mahong")
-                .param("age","1")
-                .accept(MediaType.APPLICATION_JSON)) //执行请求
-                .andExpect(jsonPath("$.name", is("mahong")))
-                .andExpect(jsonPath("$.age", is(1)));
+                .content(objectMapper.writeValueAsString(person)))
+                .andExpect(status().isOk());
     }
 
 
