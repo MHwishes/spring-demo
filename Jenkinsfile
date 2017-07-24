@@ -6,7 +6,7 @@ pipeline {
         maven 'maven 3.5.0'
       }
       steps {
-        sh './mvnw test'
+        sh 'mvn test'
       }
       post {
         failure {
