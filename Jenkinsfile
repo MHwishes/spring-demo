@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Unit Tests') {
       tools {
-        maven 'Maven 3.5.0'
+        maven 'maven 3.5.0'
       }
       steps {
         sh './mvnw test'
