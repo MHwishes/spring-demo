@@ -108,11 +108,22 @@ public class DemoTest {
 
     @Test
     @Transactional
-    public void deletePerson() throws Exception {
+    public void DELETE_PERSON_IF_ID_EXIST() throws Exception {
 
         Person person = personRepository.findAll().get(0);
         mockMvc.perform(delete("/person/" + person.getId()))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void DELETE_PERSON_IF_ID_IS_NOT_EXIST() throws Exception{
+        Integer id = ThreadLocalRandom.current().nextInt();
+        if(personRepository.exists(id)){
+            personRepository.delete(id);
+        }
+        mockMvc.perform(delete("/person/1"))
+                .andExpect(status().isNotFound());
+
     }
 
     @Test

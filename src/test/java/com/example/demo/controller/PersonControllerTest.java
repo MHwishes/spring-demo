@@ -136,14 +136,21 @@ public class PersonControllerTest {
     }
 
     @Test
-    public void deletePerson() throws Exception{
+    public void DELETE_PERSON_IF_ID_EXIST() throws Exception{
 
         Mockito.when(personRepository.exists(1)).thenReturn(true);
         doNothing().when(personRepository).delete(1);
 
         mockMvc.perform(delete("/person/1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
+    }
+    @Test
+    public void DELETE_PERSON_IF_ID_IS_NOT_EXIST() throws Exception{
+
+        Mockito.when(personRepository.exists(1)).thenReturn(false);
+        mockMvc.perform(delete("/person/1"))
+                .andExpect(status().isNotFound());
 
     }
 

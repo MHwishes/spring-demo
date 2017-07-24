@@ -82,7 +82,7 @@ public class AcceptTest {
 
 
         mockMvc.perform(delete("/person/"+person.getId()))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
     }
 

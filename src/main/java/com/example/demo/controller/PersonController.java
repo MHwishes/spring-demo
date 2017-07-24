@@ -49,7 +49,7 @@ public class PersonController {
         if (personRepository.exists(id)) {
             return new ResponseEntity<Object>(personRepository.findOne(id), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -73,11 +73,13 @@ public class PersonController {
     }
 
     @DeleteMapping(value = "/person/{id}")
-    public String delete(@PathVariable("id") Integer id) {
-
-        //TODO:考虑id不存在的情况
-        personRepository.delete(id);
-        return "success";
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
+        if (personRepository.exists(id)) {
+            personRepository.delete(id);
+            return new ResponseEntity<>(personRepository.findOne(id), HttpStatus.NO_CONTENT);
+        }else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
