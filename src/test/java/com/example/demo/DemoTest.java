@@ -45,14 +45,14 @@ public class DemoTest {
 //                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
-
-    @Test
-    public void getOnePerson() throws Exception {
-        mockMvc.perform(get("/person/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is("mahong beautiful")))
-                .andExpect(jsonPath("$.age", is(20)));
-    }
+//
+//    @Test
+//    public void getOnePerson() throws Exception {
+//        mockMvc.perform(get("/person/1"))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.name", is("mahong beautiful")))
+//                .andExpect(jsonPath("$.age", is(20)));
+//    }
 
 
     @Test
@@ -82,15 +82,15 @@ public class DemoTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    @Transactional
-    public void deletePerson() throws Exception{
-
-        mockMvc.perform(delete("/person/7"))
-                .andExpect(status().isOk());
-
-
-    }
+//    @Test
+//    @Transactional
+//    public void deletePerson() throws Exception{
+//
+//        mockMvc.perform(delete("/person/1"))
+//                .andExpect(status().isOk());
+//
+//
+//    }
 
     @Test
     public void fisttest(){

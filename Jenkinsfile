@@ -1,7 +1,18 @@
-node {
-    stage 'Building image'
-    git 'https://github.com/MHwishes/spring-demo.git' // checks out Dockerfile
-    def myEnv = docker.build 'cqueiroz:snapshot'
-    sh "docker-compose up -d"
-    sh "./mvnw test"
-   }
+pipeline {
+  agent any
+  stages {
+    stage('Unit Tests') {
+      tools {
+        maven 'Maven 3.5.0'
+      }
+      steps {
+        sh './mvnw test'
+      }
+      post {
+        failure {
+          cleanWs()
+        }
+      }
+    }
+  }
+}

@@ -22,7 +22,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-      naming-strategy : org.hibernate.cfg.ImprovedNamingStrategy
     properties:
       hibernate:
         dialect : org.hibernate.dialect.MySQL5Dialect
@@ -35,7 +34,7 @@ spring:
 spring:
   profiles: dev
   datasource:
-    url: jdbc:mysql://192.168.100.107:3306/mahong
+    url: jdbc:mysql://10.205.22.117:3306/mahong
 
 
 ---
@@ -43,4 +42,4 @@ spring:
 spring:
   profiles: test
   datasource:
-    url: jdbc:mysql://localhost:3307/mahong
+    url: jdbc:mysql://10.205.22.117:3306/test
