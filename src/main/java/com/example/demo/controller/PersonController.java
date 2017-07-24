@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+//TODO:注意返回值为httpcode
 @RestController
 public class PersonController {
 
@@ -44,6 +45,7 @@ public class PersonController {
     }
 
     @PutMapping(value = "/person/{id}")
+    //TODO:考虑id不存在的情况
     public Person update(@PathVariable("id") Integer id,@ModelAttribute Person person){
 
         return  personRepository.save(person);
@@ -52,6 +54,8 @@ public class PersonController {
 
     @DeleteMapping(value = "/person/{id}")
     public String delete(@PathVariable("id") Integer id){
+
+        //TODO:考虑id不存在的情况
         personRepository.delete(id);
         return "success";
     }
