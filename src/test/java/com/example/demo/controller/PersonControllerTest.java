@@ -72,12 +72,22 @@ public class PersonControllerTest {
 
         Person user = new Person("yuuuuy", 8, 7);
         Mockito.when(personRepository.findOne(7)).thenReturn(user);
-
+        Mockito.when(personRepository.exists(7)).thenReturn(true);
         mockMvc.perform(get("/person/7"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(7)))
                 .andExpect(jsonPath("$.name", is("yuuuuy")))
                 .andExpect(jsonPath("$.age", is(8)));
+    }
+
+    @Test
+    public void GET_ONE_PERSON_BUT_THE_ID_IS_NOT_EXITS() throws Exception{
+        Person user = new Person("yuuuuy", 8, 7);
+        Mockito.when(personRepository.findOne(7)).thenReturn(user);
+        Mockito.when(personRepository.exists(7)).thenReturn(false);
+        mockMvc.perform(get("/person/7"))
+                .andExpect(status().isNotFound());
+
     }
 
 

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -16,6 +17,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.core.Is.is;
@@ -66,7 +70,17 @@ public class DemoTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    public void GET_ONE_PERSON_BUT_THE_ID_IS_NOT_EXITS() throws Exception{
+        Integer id = ThreadLocalRandom.current().nextInt();
+        if(personRepository.exists(id)){
+              personRepository.delete(id);
+        }
 
+        mockMvc.perform(get("/person/"+id))
+                .andExpect(status().isNotFound());
+
+    }
     @Test
 
     public void addOnePERSON() throws Exception {
