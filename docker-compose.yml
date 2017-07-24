@@ -20,7 +20,6 @@ services:
 
   spring:
      image: java:8-jdk-alpine
-     container_name: spring
      ports:
        - 8888:8888
      volumes:
@@ -30,6 +29,8 @@ services:
        - mysql:mysql
      networks:
        main:
+         aliases:
+           - mysql
 
   jenkins:
      image: jenkins:2.60.1

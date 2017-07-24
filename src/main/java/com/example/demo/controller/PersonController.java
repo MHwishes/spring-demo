@@ -20,10 +20,11 @@ public class PersonController {
     @Autowired
     PersonRepository personRepository;
 
-    public void setRepo(PersonRepository repo){
-
-        personRepository =  repo;
+    @Autowired
+    public PersonController(PersonRepository personRepo) {
+        this.personRepository = personRepo;
     }
+
 
     @GetMapping(value = "/person")
     public  List<Person> getAllPersons(){

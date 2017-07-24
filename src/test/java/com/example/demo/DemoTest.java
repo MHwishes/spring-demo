@@ -1,6 +1,8 @@
 package com.example.demo;
 
 import com.example.demo.controller.HelloController;
+import com.example.demo.dao.PersonRepository;
+import com.example.demo.entity.Person;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,16 +28,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @WebAppConfiguration
+@Transactional
 public class DemoTest {
     private MockMvc mockMvc;
 
     @Autowired
     private WebApplicationContext context;
+    @Autowired
+    PersonRepository personRepository;
 
     @Before
     public void setUp() throws Exception{
 //        mockMvc = MockMvcBuilders.standaloneSetup(new PersonController()).build();
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+
+        Person person=new Person("mahong",18);
+        personRepository.save(person);
     }
 
 
@@ -45,18 +53,19 @@ public class DemoTest {
 //                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
-//
-//    @Test
-//    public void getOnePerson() throws Exception {
-//        mockMvc.perform(get("/person/1"))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.name", is("mahong beautiful")))
-//                .andExpect(jsonPath("$.age", is(20)));
-//    }
+
+    @Test
+    public void getOnePerson() throws Exception {
+        Person person = personRepository.findAll().get(0);
+        mockMvc.perform(get("/person/"+person.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is("mahong")))
+                .andExpect(jsonPath("$.age", is(18)));
+    }
 
 
     @Test
-    @Transactional
+
     public void addOnePERSON() throws Exception {
 
         mockMvc.perform(post("/person")
@@ -64,33 +73,36 @@ public class DemoTest {
                 .param("name","mahong6666")
                 .param("age","20")
                 .accept(MediaType.APPLICATION_JSON)) //执行请求
-                .andExpect(status().isOk());
+                .andExpect(jsonPath("$.name", is("mahong6666")))
+                .andExpect(jsonPath("$.age", is(20)));
 
     }
 
 
     @Test
-    @Transactional
+
     public void putOnePERSON() throws Exception {
 
         mockMvc.perform(put("/person/9")
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("name","mahong beautiful")
+                .param("name","mahong")
                 .param("age","20")
                 .param("id","1")
                 .accept(MediaType.APPLICATION_JSON)) //执行请求
-                .andExpect(status().isOk());
+                .andExpect(jsonPath("$.name", is("mahong")))
+                .andExpect(jsonPath("$.age", is(20)));
     }
 
-//    @Test
-//    @Transactional
-//    public void deletePerson() throws Exception{
-//
-//        mockMvc.perform(delete("/person/1"))
-//                .andExpect(status().isOk());
-//
-//
-//    }
+    @Test
+    @Transactional
+    public void deletePerson() throws Exception{
+
+        Person person = personRepository.findAll().get(0);
+        mockMvc.perform(delete("/person/"+person.getId()))
+                .andExpect(status().isOk());
+
+
+    }
 
     @Test
     public void fisttest(){
