@@ -114,7 +114,7 @@ public class PersonControllerTest {
 
         Mockito.when(personRepository.save(Matchers.any(Person.class))).thenReturn(person);
 
-        this.mockMvc.perform(post("/person/")
+        mockMvc.perform(post("/person/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(person)))
                 .andExpect(status().isCreated());
@@ -122,17 +122,22 @@ public class PersonControllerTest {
 
 
     @Test
-    public void putOnePERSON() throws Exception {
-        Person user = new Person("zhang", 1,1);
-        when(personRepository.save(user)).thenReturn(user);
-
+    public void UPDATE_PERSON_IF_ID_EXIST() throws Exception {
+        Person person = new Person("zhang", 1,1);
+        Mockito.when(personRepository.exists(1)).thenReturn(true);
         mockMvc.perform(put("/person/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("name","zhangpei")
-                .param("age","20")
-                .param("id","1")
-                .accept(MediaType.APPLICATION_JSON)) //执行请求
-                .andExpect(status().isOk());
+                .content(objectMapper.writeValueAsString(person)))
+                .andExpect(status().isNoContent());
+    }
+    @Test
+    public void UPDATE_PERSON_IF_ID_IS_NOT_EXIST() throws Exception {
+        Person person = new Person("zhang", 1,1);
+        Mockito.when(personRepository.exists(1)).thenReturn(false);
+        mockMvc.perform(put("/person/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(person)))
+                .andExpect(status().isNotFound());
     }
 
     @Test

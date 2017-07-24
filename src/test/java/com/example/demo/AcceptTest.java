@@ -38,19 +38,19 @@ public class AcceptTest {
     ObjectMapper objectMapper;
 
     @Before
-    public void setUp() throws Exception{
+    public void setUp() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 
         personRepository.deleteAll();
-        Person person1=new Person("mahong1",18);
-        Person person2=new Person("mahong2",19);
+        Person person1 = new Person("mahong1", 18);
+        Person person2 = new Person("mahong2", 19);
         personRepository.save(person1);
         personRepository.save(person2);
     }
 
 
     @Test
-    public void acception() throws Exception{
+    public void acception() throws Exception {
         mockMvc.perform(get("/person"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
@@ -60,7 +60,7 @@ public class AcceptTest {
                 .andExpect(jsonPath("$[1].age", is(19)));
 
         Person person = personRepository.findAll().get(0);
-        mockMvc.perform(get("/person/"+person.getId()))
+        mockMvc.perform(get("/person/" + person.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is("mahong1")))
                 .andExpect(jsonPath("$.age", is(18)));
@@ -72,18 +72,16 @@ public class AcceptTest {
                 .andExpect(status().isCreated());
 
 
-        mockMvc.perform(put("/person/"+person.getId())  //TODO:put 接口有问题，不能做简单的save
+        mockMvc.perform(put("/person/" + person.getId())
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("name","mahong")
-                .param("age","20")
-                .accept(MediaType.APPLICATION_JSON))
+                .content(objectMapper.writeValueAsString(new Person("mahong", 20, person.getId()))))
+                .andExpect(status().isNoContent())
                 .andExpect(jsonPath("$.name", is("mahong")))
                 .andExpect(jsonPath("$.age", is(20)));
 
 
-        mockMvc.perform(delete("/person/"+person.getId()))
+        mockMvc.perform(delete("/person/" + person.getId()))
                 .andExpect(status().isNoContent());
-
     }
 
 

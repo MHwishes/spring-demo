@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-//TODO:注意返回值为httpcode
 @RestController
 public class PersonController {
 
@@ -28,12 +27,6 @@ public class PersonController {
     public PersonController(PersonRepository personRepo) {
         this.personRepository = personRepo;
     }
-
-
-//    private void validatePerson(Integer userId) {
-//        personRepository.findById(userId);
-//        if()
-//    }
 
     @GetMapping(value = "/person")
     public List<Person> getAllPersons() {
@@ -65,19 +58,24 @@ public class PersonController {
     }
 
     @PutMapping(value = "/person/{id}")
-    //TODO:考虑id不存在的情况
-    public Person update(@PathVariable("id") Integer id, @ModelAttribute Person person) {
 
-        return personRepository.save(person);
-
+    public ResponseEntity<?> update(@PathVariable("id") Integer id, @RequestBody Person person) {
+        if (!personRepository.exists(id)) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(personRepository.save(person), HttpStatus.NO_CONTENT);
+        }
     }
+
+
+
 
     @DeleteMapping(value = "/person/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
         if (personRepository.exists(id)) {
             personRepository.delete(id);
             return new ResponseEntity<>(personRepository.findOne(id), HttpStatus.NO_CONTENT);
-        }else {
+        } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }

@@ -34,7 +34,7 @@ spring:
 spring:
   profiles: dev
   datasource:
-    url: jdbc:mysql://10.205.22.117:3306/mahong
+    url: jdbc:mysql://192.168.100.107:3306/mahong
 
 
 ---

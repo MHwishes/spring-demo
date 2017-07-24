@@ -4,6 +4,7 @@ import com.example.demo.controller.HelloController;
 import com.example.demo.dao.PersonRepository;
 import com.example.demo.entity.Person;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -68,19 +69,21 @@ public class DemoTest {
         Person person = personRepository.findAll().get(0);
         mockMvc.perform(get("/person/" + person.getId()))
                 .andExpect(status().isOk());
+
     }
 
     @Test
-    public void GET_ONE_PERSON_BUT_THE_ID_IS_NOT_EXITS() throws Exception{
+    public void GET_ONE_PERSON_BUT_THE_ID_IS_NOT_EXITS() throws Exception {
         Integer id = ThreadLocalRandom.current().nextInt();
-        if(personRepository.exists(id)){
-              personRepository.delete(id);
+        if (personRepository.exists(id)) {
+            personRepository.delete(id);
         }
 
-        mockMvc.perform(get("/person/"+id))
+        mockMvc.perform(get("/person/" + id))
                 .andExpect(status().isNotFound());
 
     }
+
     @Test
 
     public void addOnePERSON() throws Exception {
@@ -93,21 +96,34 @@ public class DemoTest {
 
 
     @Test
+    public void UPDATE_PERSON_IF_ID_EXIST() throws Exception {
+        Person person = personRepository.findAll().get(0);
+        Person newPerson = new Person("hu", 5, person.getId());
 
-    public void putOnePERSON() throws Exception {
-
-        mockMvc.perform(put("/person/9")
+        mockMvc.perform(put("/person/" + person.getId())
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("name", "mahong")
-                .param("age", "20")
-                .param("id", "1")
-                .accept(MediaType.APPLICATION_JSON)) //执行请求
-                .andExpect(jsonPath("$.name", is("mahong")))
-                .andExpect(jsonPath("$.age", is(20)));
+                .content(objectMapper.writeValueAsString(newPerson)))
+                .andExpect(status().isNoContent())
+                .andExpect(jsonPath("$.id", is(person.getId())))
+                .andExpect(jsonPath("$.name", is("hu")))
+                .andExpect(jsonPath("$.age", is(5)));
     }
 
     @Test
-    @Transactional
+    public void UPDATE_PERSON_IF_ID_IS_NOT_EXIST() throws Exception {
+        Integer id = ThreadLocalRandom.current().nextInt();
+        Person newPerson = new Person("hu", 5, id);
+        if (personRepository.exists(id)) {
+            personRepository.delete(id);
+        }
+        mockMvc.perform(put("/person/" + id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(newPerson)))
+                .andExpect(status().isNotFound());
+
+    }
+
+    @Test
     public void DELETE_PERSON_IF_ID_EXIST() throws Exception {
 
         Person person = personRepository.findAll().get(0);
@@ -116,32 +132,13 @@ public class DemoTest {
     }
 
     @Test
-    public void DELETE_PERSON_IF_ID_IS_NOT_EXIST() throws Exception{
+    public void DELETE_PERSON_IF_ID_IS_NOT_EXIST() throws Exception {
         Integer id = ThreadLocalRandom.current().nextInt();
-        if(personRepository.exists(id)){
+        if (personRepository.exists(id)) {
             personRepository.delete(id);
         }
         mockMvc.perform(delete("/person/1"))
                 .andExpect(status().isNotFound());
 
-    }
-
-    @Test
-    public void fisttest() {
-        HelloController helloController = new HelloController();
-        assertEquals("Hello World", helloController.index());
-    }
-
-    @Test
-    public void sayHello() throws Exception {
-        mockMvc.perform(get("/hello"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("Hello")));
-    }
-
-
-    @Test
-    public void contextLoads() {
-        assertEquals(6, 3 + 3);
     }
 }
