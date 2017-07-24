@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.dao.PersonRepository;
 import com.example.demo.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +31,8 @@ public class PersonController {
 
     @GetMapping(value = "/person")
     public  List<Person> getAllPersons(){
-        System.out.print("ertyuiopsdfghj");
+
+
         return personRepository.findAll();
     }
 
@@ -40,9 +43,14 @@ public class PersonController {
     }
 
 
+//    @PostMapping(value="/person")
+//    public Person save(Person  person){
+//        return  personRepository.save(person);
+//    }
+
     @PostMapping(value="/person")
-    public Person save(Person  person){
-        return  personRepository.save(person);
+    ResponseEntity<?> save(@RequestBody Person  person){
+        return  new ResponseEntity<> (personRepository.save(person), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/person/{id}")

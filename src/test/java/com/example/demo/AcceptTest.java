@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.dao.PersonRepository;
 import com.example.demo.entity.Person;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,11 +29,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AcceptTest {
     private MockMvc mockMvc;
 
-
     @Autowired
     private WebApplicationContext context;
     @Autowired
     PersonRepository personRepository;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Before
     public void setUp() throws Exception{
@@ -63,13 +66,11 @@ public class AcceptTest {
                 .andExpect(jsonPath("$.age", is(18)));
 
 
-        mockMvc.perform(post("/person")
+        mockMvc.perform(post("/person/")
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("name","mahong6666")
-                .param("age","20")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name", is("mahong6666")))
-                .andExpect(jsonPath("$.age", is(20)));
+                .content(objectMapper.writeValueAsString(new Person("huhu", 1))))
+                .andExpect(status().isCreated());
+
 
         mockMvc.perform(put("/person/"+person.getId())  //TODO:put 接口有问题，不能做简单的save
                 .contentType(MediaType.APPLICATION_JSON)
@@ -85,5 +86,5 @@ public class AcceptTest {
 
     }
 
-    
+
 }

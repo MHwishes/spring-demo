@@ -107,7 +107,7 @@ public class PersonControllerTest {
         this.mockMvc.perform(post("/person/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(person)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
 
