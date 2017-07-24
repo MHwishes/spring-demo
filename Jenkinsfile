@@ -16,7 +16,7 @@ pipeline {
       }
     }
 
-    state('Integration Tests'){
+    stage('Integration Tests'){
        tools {
            maven 'maven 3.5.0'
          }
