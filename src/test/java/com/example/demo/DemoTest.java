@@ -73,7 +73,7 @@ public class DemoTest {
     }
 
     @Test
-    public void GET_ONE_PERSON_BUT_THE_ID_IS_NOT_EXITS() throws Exception {
+    public void getOnePersonIfIdNotFound() throws Exception {
         Integer id = ThreadLocalRandom.current().nextInt();
         if (personRepository.exists(id)) {
             personRepository.delete(id);
@@ -96,7 +96,7 @@ public class DemoTest {
 
 
     @Test
-    public void UPDATE_PERSON_IF_ID_EXIST() throws Exception {
+    public void updatePersonIdExist() throws Exception {
         Person person = personRepository.findAll().get(0);
         Person newPerson = new Person("hu", 5, person.getId());
 
@@ -110,7 +110,7 @@ public class DemoTest {
     }
 
     @Test
-    public void UPDATE_PERSON_IF_ID_IS_NOT_EXIST() throws Exception {
+    public void updatePersonIdNotExist() throws Exception {
         Integer id = ThreadLocalRandom.current().nextInt();
         Person newPerson = new Person("hu", 5, id);
         if (personRepository.exists(id)) {
@@ -124,7 +124,7 @@ public class DemoTest {
     }
 
     @Test
-    public void DELETE_PERSON_IF_ID_EXIST() throws Exception {
+    public void deletedIfIdExist() throws Exception {
 
         Person person = personRepository.findAll().get(0);
         mockMvc.perform(delete("/person/" + person.getId()))
@@ -132,7 +132,7 @@ public class DemoTest {
     }
 
     @Test
-    public void DELETE_PERSON_IF_ID_IS_NOT_EXIST() throws Exception {
+    public void deletedIfIdNotExit() throws Exception {
         Integer id = ThreadLocalRandom.current().nextInt();
         if (personRepository.exists(id)) {
             personRepository.delete(id);
