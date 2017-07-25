@@ -7,7 +7,7 @@ pipeline {
         maven 'maven 3.5.0'
       }
       steps {
-        sh 'mvn test -P pro -Dtest=PersonControllerTest'
+        sh 'mvn test -Dtest=PersonControllerTest'
       }
       post {
         failure {
@@ -21,7 +21,7 @@ pipeline {
            maven 'maven 3.5.0'
          }
          steps {
-            sh 'mvn test  -P pro -Dtest=DemoTest'
+            sh 'mvn test  -Dtest=DemoTest'
          }
          post {
             failure {

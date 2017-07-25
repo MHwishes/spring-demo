@@ -1,34 +1,28 @@
 version: '2'
 services:
-  mysql:
+  mysql_test:
     image: mysql:5.7
+    container_name: mysql_test
     ports:
-      - 3306:3306
-
+      - 3360:3306
     environment:
       - LANG=C.UTF-8
       - TERM=dumb
-      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=mahong
       - MYSQL_DATABASE=test
       - MYSQL_PASSWORD=mahong
       - MYSQL_USER=mahong
     networks:
       main:
-        aliases:
-          - mysql
-
-
-  spring:
-     image: java:8-jdk-alpine
-     ports:
-       - 8888:8888
-     command: ./mvnw test
-     links:
-       - mysql:mysql
-     networks:
-       main:
-         aliases:
-           - spring
-
+  spring_test:
+    build: ./
+    container_name: spring_test
+    ports:
+      - 8080:8080
+    links:
+      - mysql_test:mysql_test
+    command: ./mvnw test -P test
+    networks:
+      main:
 networks:
   main:
