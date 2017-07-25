@@ -24,7 +24,7 @@ services:
        - 8888:8888
      volumes:
        - ./target/demo-0.0.1-SNAPSHOT.jar:/usr/src/myapp/spring-boot-demo-0.0.1.jar
-     command: java -jar /usr/src/myapp/spring-boot-demo-0.0.1.jar  --spring.profiles.active=dev
+     command: java -jar /usr/src/myapp/spring-boot-demo-0.0.1.jar  --spring.profiles.active=pro
      links:
        - mysql:mysql
      networks:

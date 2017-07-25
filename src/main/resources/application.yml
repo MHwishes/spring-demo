@@ -34,7 +34,7 @@ spring:
 spring:
   profiles: dev
   datasource:
-    url: jdbc:mysql://mysql:3306/mahong
+    url: jdbc:mysql://localhost:3306/mahong
 
 
 ---
@@ -43,3 +43,11 @@ spring:
   profiles: test
   datasource:
     url: jdbc:mysql://mysql:3306/test
+
+---
+# 生产环境配置
+spring:
+  profiles: pro
+  datasource:
+    url: jdbc:mysql://mysql:3306/mahong
+
