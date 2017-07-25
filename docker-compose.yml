@@ -30,7 +30,7 @@ services:
      networks:
        main:
          aliases:
-           - mysql
+           - spring
 
   jenkins:
      image: jenkins:2.60.1
