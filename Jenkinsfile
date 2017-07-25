@@ -30,5 +30,18 @@ pipeline {
          }
      }
 
+
+    stage('container Tests'){
+           node('host'){
+                 checkout scm
+                 sh '/usr/local/bin/docker-compose -f docker-compose-test.yml up'
+            }
+           post {
+                failure {
+                  cleanWs()
+                }
+             }
+         }
+
   }
 }
