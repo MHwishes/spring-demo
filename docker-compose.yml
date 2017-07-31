@@ -17,6 +17,22 @@ services:
         aliases:
           - mysql
 
+  mysqltest:
+    image: mysql:5.7
+    ports:
+      - 3307:3306
+
+    environment:
+      - LANG=C.UTF-8
+      - TERM=dumb
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=test
+      - MYSQL_PASSWORD=mahong
+      - MYSQL_USER=mahong
+    networks:
+      main:
+        aliases:
+          - mysqltest
 
   spring:
      image: java:8-jdk-alpine

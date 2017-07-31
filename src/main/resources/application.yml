@@ -12,7 +12,7 @@ person:
 
 spring:
   profiles:
-    active: dev
+    active: test
   datasource:
       driver-class-name: com.mysql.jdbc.Driver
 #      url: jdbc:mysql://localhost:3306/mahong
@@ -42,7 +42,7 @@ spring:
 spring:
   profiles: test
   datasource:
-    url: jdbc:mysql://mysql:3306/test
+    url: jdbc:mysql://localhost:3307/test
 
 ---
 # 生产环境配置
